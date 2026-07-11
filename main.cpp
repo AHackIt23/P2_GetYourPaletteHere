@@ -2,10 +2,19 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <fstream>
 #include <random>
 #include <filesystem>
+
 #define Image_Processing
 #include <std_image.h>
+
+#include <SDL.h>
+#include <sdl_opengl.h>
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdlrenderer2.h>
 
 struct Pixel {int r, g, b;};
 
@@ -27,8 +36,10 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   
   if (!data) {
     std::cerr << "Failed to load image!" << filename << std::endl;
+    return {};
   }
   size_t totalPixels = (size_t)width * height;
+  std::vector<Pixel> pixels;
   pixels.reserve(totalPixels);
     
   for (size_t i = 0; i < totalPixels; ++i) {
