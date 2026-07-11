@@ -164,12 +164,14 @@ int main(int argc, char** argv) {
         }
     
         //stops boundary extension
-        float extraSpace = ImGui::GetWindowHeight() - ImGui::GetCursorPosY() - 78.0f;
-        if (extraSpace > 0.0f) {
-          ImGui::Dummy(ImVec2(0.0f, extraSpace));
+        float windowHeight = ImGui::GetWindowHeight();
+        if (windowHeight > 100.0f) {
+          ImGui::Spacing();
+          ImGui::Dummy(ImVec2(0.0f, windowHeight - ImGui::GetCursorPosY() - 80.0f));
         }
-
-        ImGui::SetCursorPosX(ImGui::GetWindowWidth() / 2 - 120);
+        
+        float windowWidth = ImGui::GetWindowWidth();
+        ImGui::SetCursorPosX((windowWidth - 240.0f) / 2);
         if (!draggedImagePath.empty() && ImGui::Button("Extract Palette", ImVec2(240, 52))) {
           state = Loading;
         }
