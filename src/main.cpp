@@ -60,6 +60,23 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   return pixels;
 }
 
+//k means algorithm
+std::vector<Pixel> kMean(const std::vector<Pixel>& inputPixels) {
+  //to do: implement algorithm
+  std::vector<Pixel> mockPixels = {
+      {255, 0, 0},
+      {0, 255, 0},
+      {0, 0, 255}
+  }; // mock vector totest app play
+  return mockPixels;
+}
+
+//median mean algorithm
+std::vector<Pixel> MedianMean(const std::vector<Pixel>& kPixels) {
+  //to do: implement algorithm
+  return kPixels;
+}
+
 //text for palette colors
 void paletteOutputText(const std::vector<Pixel>& palette) {
   std::filesystem::path output = std::filesystem::current_path() /"palette.txt";
