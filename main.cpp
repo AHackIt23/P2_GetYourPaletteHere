@@ -57,7 +57,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   glBindTexture(GL_TEXTURE_2D, 0);
     
   stbi_image_free(data);
-  return totalPixels;
+  return pixels;
 }
 
 //text for palette colors
@@ -73,7 +73,7 @@ void paletteOutputText(const std::vector<Pixel>& palette) {
     std::cout << Palete saved to: " << output << '\n';
   }
   else {
-    srd::caerr << "Error: Unable to open output file.\n";
+    std::cerr << "Error: Unable to open output file.\n";
   }
 }
 
@@ -85,7 +85,10 @@ int main(int argc, char** argv) {
 
   SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
                                   SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZEABLE);
-  if (!window) return -1;
+  if (!window) {
+    SDL_Quit();
+    return -1;
+  }
   
   SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (!renderer) {
@@ -113,7 +116,6 @@ int main(int argc, char** argv) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<int> colorLimits(0, 255);
-  
   for (int i = 0; i < 120000; i++) {
     dataset.push_back({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
   }
@@ -144,13 +146,11 @@ int main(int argc, char** argv) {
   
     switch (state) {
       case Home: {
-        ImGui::Text("Drag and drop an image here");
+        ImGui::Text("Drag and drop an image here.");
         if (!draggedImagePath.empty()) {
            ImGui::Text("File loaded: %s", draggedImagePath.c_str());
-           //ImGui::Render();
         }
     
-        //ImGui::Spacing();
         ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 120, ImGui::GetWindowHeight() - 78));
         if (!draggedImagePath.empty() && ImGui::Button("Extract Palette", ImVec2(240, 52))) {
           state = Loading;
@@ -159,7 +159,7 @@ int main(int argc, char** argv) {
       } //case Home closing
   
       case Loading: {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         //ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
       
@@ -194,7 +194,6 @@ int main(int argc, char** argv) {
           ImGui::Image((void*)(intptr_t)ImageStorage, ImVec2(400, 400));
         }
         
-        //ImGui::Spacing();
         if (ImGui::Button("Reset")) {
             draggedImagePath.clear();
             finalPalette.clear();
