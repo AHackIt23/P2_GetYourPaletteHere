@@ -7,7 +7,7 @@
 #include <random>
 #include <filesystem>
 
-#define Image_Processing
+#define STB_IMAGE_IMPLEMENTATION
 #include <std_image.h>
 
 #include <SDL.h>
