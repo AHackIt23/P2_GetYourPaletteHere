@@ -8,10 +8,10 @@
 #include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <std_image.h>
+#include "stb_image.h"
 
-#include <SDL.h>
-#include <sdl_opengl.h>
+#include "SDL.h"
+#include <SDL_opengl.h>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
@@ -32,7 +32,7 @@ std::string pixelToHex(const Pixel& p) {
 std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture) {
   int width, height, channels;
   
-  unsigned char* data = stbi_load(filname.c_str(), &width, &height, &channels, 3);
+  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
   
   if (!data) {
     std::cerr << "Failed to load image!" << filename << std::endl;
@@ -49,7 +49,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   }
 
   //Generate final image texture
-  glGenTexture(1, &resultsImageTexture);
+  glGenTextures(1, &resultsImageTexture);
   glBindTexture(GL_TEXTURE_2D, resultsImageTexture);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -84,10 +84,10 @@ void paletteOutputText(const std::vector<Pixel>& palette) {
   std::ofstream out(output);
   if (out.is_open()) {
     for (const auto& p : palette) {
-      out << pixeltoHex(p) << "\n";
+      out << pixelToHex(p) << "\n";
     }
     out.close();
-    std::cout << Palete saved to: " << output << '\n';
+    std::cout << "Pallete saved to: " << output << '\n';
   }
   else {
     std::cerr << "Error: Unable to open output file.\n";
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
   }
 
   SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
-                                  SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZEABLE);
+                                  SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
   if (!window) {
     SDL_Quit();
     return -1;
@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
         //SDL_RenderPresent(renderer);
         if (!draggedImagePath.empty()) {
           //load image and get list of [R,G,B} values
-          std::vector<pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
+          std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
           if (!imagePixels.empty()) {
             //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
             //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
@@ -242,7 +242,10 @@ int main(int argc, char** argv) {
     
     ImGui::End(); //End home window
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
     SDL_RenderPresent(renderer);
   } //while(running) closing
   

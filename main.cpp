@@ -8,7 +8,7 @@
 #include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <std_image.h>
+#include <stb_image.h>
 
 #include <SDL.h>
 #include <sdl_opengl.h>
@@ -59,6 +59,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   stbi_image_free(data);
   return pixels;
 }
+
 
 //text for palette colors
 void paletteOutputText(const std::vector<Pixel>& palette) {

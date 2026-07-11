@@ -1,0 +1,3 @@
+/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu/CMakeFiles/P2_GetYourPaletteHere.dir
+/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu/CMakeFiles/edit_cache.dir
+/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu/CMakeFiles/rebuild_cache.dir

@@ -1,12 +1,17 @@
-cmake_minimum_requirement(VERSION 3.10)
-project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.5)
+project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES C CXX)
 
-#require C++17
-set(CMAKE_CXX_STANDARD 17)
+# Require C++20 for <filesystem> and modern C++ features
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-#define project sources
-set(projectSources
+# Find necessary external packages
+find_package(SDL2 REQUIRED)
+find_package(OpenGL REQUIRED)
+
+# Define the source files for our executable
+set(SRC_FILES
     src/main.cpp
     src/imgui/imgui.cpp
     src/imgui/imgui_demo.cpp
@@ -18,18 +23,20 @@ set(projectSources
     src/imgui/imgui_widgets.cpp
 )
 
-#define executable
-add_executable(P2_GetYourPaletteHere ${projectSources})
+# Create the executable
+add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-#find and link sdl2
-find_package(SDL2 REQUIRED)
-target_link_libraries(P2_GetYourPaletteHere PRIVATE SDL2::SDL2 SDL2::SDL2main)
+# Link external libraries (SDL2 and OpenGL)
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    SDL2::SDL2
+    SDL2::SDL2main
+    OpenGL::GL
+)
 
-#include directories
-target_include_directories(P2_GetYourPaletteHere PRIVATE
+# Specify all header search paths (stb, imgui, and SDL)
+target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/stb
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui
     ${SDL2_INCLUDE_DIRS}
 )
