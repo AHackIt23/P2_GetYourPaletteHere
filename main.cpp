@@ -9,7 +9,7 @@ struct Pixel {
   int r, g, b;
 };
 
-enum ProgramState {Home, Loading, Results};;
+enum ProgramState {Home, Loading, Results};
 
 //convert pixel to hex string
 std::string pixelToHex(const Pixel& p) {
@@ -21,7 +21,6 @@ std::string pixelToHex(const Pixel& p) {
 }
 
 std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture) {
-  std::vector<Pixel> pixels;
   int width, height, channels;
   
   unsigned char* data = stbi_load(filname.c_str(), &width, &height, &channels, 3);
@@ -29,31 +28,29 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   if (!data) {
     std::cerr << "Failed to load image!" << filename << std::endl;
   }
-  else {
-    size_t totalPixels = (size_t)width * height;
-    pixels.reserve(totalPixels);
+  size_t totalPixels = (size_t)width * height;
+  pixels.reserve(totalPixels);
     
-    for (size_t i = 0; i < totalPixels; ++i) {
-      size_t index = i * 3;
-      pixels.push_back({static_cast<int>(data[index]), static_cast<int>(data[index + 1]),
-                       static_cast<int>(data[index + 2])});
-    }
-
-    //Generate final image texture
-    glGenTexture(1, &resultsImageTexture);
-    glBindTexture(GL_TEXTURE_2D, resultsImageTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    stbi_image_free(data);
+  for (size_t i = 0; i < totalPixels; ++i) {
+    size_t index = i * 3;
+    pixels.push_back({static_cast<int>(data[index]), static_cast<int>(data[index + 1]),
+                     static_cast<int>(data[index + 2])});
   }
-  return pixels;
+
+  //Generate final image texture
+  glGenTexture(1, &resultsImageTexture);
+  glBindTexture(GL_TEXTURE_2D, resultsImageTexture);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  glBindTexture(GL_TEXTURE_2D, 0);
+    
+  stbi_image_free(data);
+  return totalPixels;
 }
 
 //text for palette colors
-void paletteColorsText(const std::vector<Pixel>& palette) {
+void paletteOutputText(const std::vector<Pixel>& palette) {
   std::ofstream out("palette.txt");
   if (out.is_open()) {
     for (const auto& p : palette) {
@@ -65,11 +62,11 @@ void paletteColorsText(const std::vector<Pixel>& palette) {
 
 int main(int argc, char** argc) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-    std::cerr << "Error: " << SDL_GetErro() << std::endl;
+    std::cerr << "Error: " << SDL_GetError() << std::endl;
     return -1;
   }
 
-  SDL_Window* window = SLD_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
+  SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
                                   SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZEABLE);
   if (!window) return -1;
   
@@ -85,7 +82,7 @@ int main(int argc, char** argc) {
   ImGui::StyleColorsDark();
   
   ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
-  ImGui_ImpSDLRenderer2_Init(renderer);
+  ImGui_ImplSDLRenderer2_Init(renderer);
   
   ProgramState state = Home;
   
@@ -94,19 +91,19 @@ int main(int argc, char** argc) {
   GLuint ImageStorage = 0; //stores image as texture for results page
   
   //generating dataset of 120,000 pixels
-  std::vector<pixel> datatset;
+  std::vector<Pixel> datatset;
   dataset.reserve(120000);
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<int> colorLimits(0, 255);
   
   for (int i = 0; i < 120000; i++) {
-    datatset.pushback({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
+    datatset.push_back({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
   }
   
   //Main Loop
   bool running = true;
-  wile (running) {
+  while (running) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         ImGui_ImplSDL2_ProcessEvent(&event);
@@ -136,19 +133,19 @@ int main(int argc, char** argc) {
         }
     
         //ImGui::Spacing();
-        ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 120, ImGui::GetWindowHigh() - 78));
+        ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 120, ImGui::GetWindowHeight() - 78));
         if (!draggedImagePath.empty() && ImGui::Button("Extract Palette", ImVec2(240, 52))) {
           state = Loading;
         }
         break;
-      }
+      } //case Home closing
   
       case Loading: {
         SDL_RenderClear(renderer);
-        ImGui_ImplSDLRenderer2DrawData(ImGui::GetDrawData());
+        ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
       
-        //SDL_Present(renderer);
-        if (!dragged_image_path.empty()) {
+        //SDL_RenderPresent(renderer);
+        if (!draggedImagePath.empty()) {
           //load image and get list of [R,G,B} values
           std::vector<pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
           if (!imagePixels.empty()) {
@@ -160,31 +157,31 @@ int main(int argc, char** argc) {
             ImGui::Text("Error loading image...");
             state = Home; //loading fail
           }
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight / 2));
+          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2));
           ImGui::Text("Palette Loading...");
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight / 2 + 30));
+          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2 + 30));
           ImGui::ProgressBar(0.5f, ImVec2(300, 20));
           break;
         }
-      }
+      } //case Loading closing
   
       case Results: {
         //ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
         //ImGui::Begin("Results", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
     
         //Left Side: Image
-        ImGui::BeginChild("Left Image", ImVec2(ImGui::GetWindowWidth * 0.5f, 0), false);
+        ImGui::BeginChild("Left Image", ImVec2(ImGui::GetWindowWidth() * 0.5f, 0), false);
         if (ImageStorage != 0) {
-          ImGui::Image((void*)intptr_t)ImageStorage, ImVec2(400, 400));
+          ImGui::Image((void*)(intptr_t)ImageStorage, ImVec2(400, 400));
         }
         
         //ImGui::Spacing();
         if (ImGui::Button("Reset")) {
-            dragged_image_path.clear();
-            final_palette.clear();
+            draggedImagePath.clear();
+            finalPalette.clear();
             state = Home;
         }
-        Imgui::EndChild();
+        ImGui::EndChild();
     
         ImGui::SameLine();
     
@@ -200,24 +197,28 @@ int main(int argc, char** argc) {
           ImGui::Spacing();
         }
 
-      if (ImGui::Button("Copy Palette")) {
-        paletteColorsText(finalPalette);
-      }
-      ImGui::EndChild();
-      break;
-    }
+        if (ImGui::Button("Copy Palette")) {
+          paletteOutputText(finalPalette);
+        }
+        ImGui::EndChild();
+        break;
+      } //case Results closing
+    } //switch closing
+    
     ImGui::End();
     ImGui::Render();
-      
-
-  //clean up
-  IMGui_ImplSDLRenderer2_Shutdown();
-  IMGui_ImplSDL2_Shutdown();
+    ImGui_ImplSDLRenderDrawData(ImGui::GetDrawData());
+    SDL_RenderPresent(renderer);
+  } //while(running) closing
+  
+  //clean up  
+  ImGui_ImplSDLRenderer2_Shutdown();
+  ImGui_ImplSDL2_Shutdown();
   ImGui::DestroyContext();
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
-  SDL_Quit()
+  SDL_Quit();
 
   return 0;
-}
+} //main function closing
