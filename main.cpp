@@ -11,10 +11,10 @@
 #include <stb_image.h>
 
 #include <SDL.h>
-#include <sdl_opengl.h>
+#include <SDL_opengl.h>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
-#include <imgui_impl_sdlrenderer2.h>
+#include <imgui_impl_opengl3.h>
 
 struct Pixel {int r, g, b;};
 
