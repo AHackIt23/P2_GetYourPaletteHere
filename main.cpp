@@ -33,7 +33,7 @@ std::string pixelToHex(const Pixel& p) {
 std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture) {
   int width, height, channels;
   
-  unsigned char* data = stbi_load(filname.c_str(), &width, &height, &channels, 3);
+  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
   
   if (!data) {
     std::cerr << "Failed to load image!" << filename << std::endl;
@@ -69,10 +69,10 @@ void paletteOutputText(const std::vector<Pixel>& palette) {
   std::ofstream out(output);
   if (out.is_open()) {
     for (const auto& p : palette) {
-      out << pixeltoHex(p) << "\n";
+      out << pixelToHex(p) << "\n";
     }
     out.close();
-    std::cout << Palete saved to: " << output << '\n';
+    std::cout << "Palete saved to: " << output << '\n';
   }
   else {
     std::cerr << "Error: Unable to open output file.\n";
@@ -86,13 +86,13 @@ int main(int argc, char** argv) {
   }
 
   //Request OpenGl context profile
-  SDL_GL_SetAttribut(SDL_GL_CONTEXT_FLAGS, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
   SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
-                                  SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZEABLE);
+                                  SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
   if (!window) {
     SDL_Quit();
     return -1;
@@ -163,7 +163,12 @@ int main(int argc, char** argv) {
            ImGui::Text("File loaded: %s", draggedImagePath.c_str());
         }
     
-        ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 120, ImGui::GetWindowHeight() - 78));
+        //stops boundary extension
+        ImVec2 buttonPos = ImVec2(ImGui::GetWindowWidth() / 2 - 120, ImGui::GetWindowHeight() - 78);
+        ImGui::SetCursorPos(buttonPos);
+        ImGui::Dummy(ImVec2(240, 52));
+        ImGui::SetCursorPos(buttonPos);
+
         if (!draggedImagePath.empty() && ImGui::Button("Extract Palette", ImVec2(240, 52))) {
           state = Loading;
         }
@@ -183,9 +188,17 @@ int main(int argc, char** argv) {
             ImGui::Text("Error loading image...");
             state = Home; //loading fail
           }
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2));
+
+          ImVec2 textPos1 = ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2);
+          ImGui::SetCursorPos(textPos1);
+          ImGui::Dummy(ImVec2(300, 20));
+          ImGui::SetCursorPos(textPos1);
           ImGui::Text("Palette Loading...");
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2 + 30));
+
+          ImVec2 barPos = ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2 + 30);
+          ImGui::SetCursorPos(barPos);
+          ImGui::Dummy(ImVec2(300, 20));
+          ImGui::SetCursorPos(barPos);
           ImGui::ProgressBar(0.5f, ImVec2(300, 20));
           break;
         }
@@ -194,7 +207,7 @@ int main(int argc, char** argv) {
       case Results: {
         ImGui::BeginChild("Left Image", ImVec2(ImGui::GetWindowWidth() * 0.5f, 0), false);
         if (ImageStorage != 0) {
-          ImGui::Image((void*)(intptr_t)ImageStorage, ImVec2(400, 400));
+          ImGui::Image((ImTextureID)(intptr_t)ImageStorage, ImVec2(400, 400));
         }
         
         if (ImGui::Button("Reset")) {
@@ -234,7 +247,7 @@ int main(int argc, char** argv) {
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     SDL_GL_SwapWindow(window);
-  } //while(running) closing
+  }
   
   //clean up  
   ImGui_ImplOpenGL3_Shutdown();
