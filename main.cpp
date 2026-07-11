@@ -2,12 +2,12 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include <random>
+#include <filesystem>
 #define Image_Processing
 #include <std_image.h>
 
-struct Pixel {
-  int r, g, b;
-};
+struct Pixel {int r, g, b;};
 
 enum ProgramState {Home, Loading, Results};
 
@@ -51,16 +51,22 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
 
 //text for palette colors
 void paletteOutputText(const std::vector<Pixel>& palette) {
-  std::ofstream out("palette.txt");
+  std::filesystem::path output = std::filesystem::current_path() /"palette.txt";
+  
+  std::ofstream out(output);
   if (out.is_open()) {
     for (const auto& p : palette) {
       out << pixeltoHex(p) << "\n";
     }
     out.close();
+    std::cout << Palete saved to: " << output << '\n';
+  }
+  else {
+    srd::caerr << "Error: Unable to open output file.\n";
   }
 }
 
-int main(int argc, char** argc) {
+int main(int argc, char** argv) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
     std::cerr << "Error: " << SDL_GetError() << std::endl;
     return -1;
@@ -91,14 +97,14 @@ int main(int argc, char** argc) {
   GLuint ImageStorage = 0; //stores image as texture for results page
   
   //generating dataset of 120,000 pixels
-  std::vector<Pixel> datatset;
+  std::vector<Pixel> dataset;
   dataset.reserve(120000);
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<int> colorLimits(0, 255);
   
   for (int i = 0; i < 120000; i++) {
-    datatset.push_back({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
+    dataset.push_back({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
   }
   
   //Main Loop
@@ -115,7 +121,8 @@ int main(int argc, char** argc) {
             SDL_free(event.drop.file);
         }
     }
-  
+
+    //Starting new frame
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
@@ -141,15 +148,16 @@ int main(int argc, char** argc) {
       } //case Home closing
   
       case Loading: {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
+        //ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
       
         //SDL_RenderPresent(renderer);
         if (!draggedImagePath.empty()) {
           //load image and get list of [R,G,B} values
           std::vector<pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
           if (!imagePixels.empty()) {
-            //std::vector<Pixel> kMeansPixels = k means function call returning palette
+            //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
             //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
             state = Results;
           }
@@ -205,9 +213,9 @@ int main(int argc, char** argc) {
       } //case Results closing
     } //switch closing
     
-    ImGui::End();
+    ImGui::End(); //End home window
     ImGui::Render();
-    ImGui_ImplSDLRenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
   } //while(running) closing
   
