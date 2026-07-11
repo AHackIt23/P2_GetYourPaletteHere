@@ -12,6 +12,7 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
+
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
@@ -84,6 +85,12 @@ int main(int argc, char** argv) {
     return -1;
   }
 
+  //Request OpenGl context profile
+  SDL_GL_SetAttribut(SDL_GL_CONTEXT_FLAGS, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+
   SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
                                   SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZEABLE);
   if (!window) {
@@ -91,19 +98,23 @@ int main(int argc, char** argv) {
     return -1;
   }
   
-  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  /*SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (!renderer) {
     SDL_DestroyWindow(window);
     SDL_Quit();
     return -1;
-  }
+  }*/
+  //Switch to OpenGL Context
+  SDL_GLContext gl_context = SDL_GL_CreateContext(window);
+  SDL_GL_MakeCurrent(window, gl_context);
+  SDL_GL_SetSwapInterval(1); //vsync
   
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGui::StyleColorsDark();
   
-  ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
-  ImGui_ImplSDLRenderer2_Init(renderer);
+  ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+  ImGui_ImplOpenGL3_Init("#version 130");
   
   ProgramState state = Home;
   
@@ -137,7 +148,7 @@ int main(int argc, char** argv) {
     }
 
     //Starting new frame
-    ImGui_ImplSDLRenderer2_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
   
@@ -160,14 +171,9 @@ int main(int argc, char** argv) {
       } //case Home closing
   
       case Loading: {
-        //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-        //ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
-      
-        //SDL_RenderPresent(renderer);
         if (!draggedImagePath.empty()) {
           //load image and get list of [R,G,B} values
-          std::vector<pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
+          std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
           if (!imagePixels.empty()) {
             //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
             //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
@@ -186,10 +192,6 @@ int main(int argc, char** argv) {
       } //case Loading closing
   
       case Results: {
-        //ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-        //ImGui::Begin("Results", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
-    
-        //Left Side: Image
         ImGui::BeginChild("Left Image", ImVec2(ImGui::GetWindowWidth() * 0.5f, 0), false);
         if (ImageStorage != 0) {
           ImGui::Image((void*)(intptr_t)ImageStorage, ImVec2(400, 400));
@@ -226,16 +228,20 @@ int main(int argc, char** argv) {
     
     ImGui::End(); //End home window
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
-    SDL_RenderPresent(renderer);
+
+    glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+    glClearColor(0.01f, 0.1f,0.1f, 0.1f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    SDL_GL_SwapWindow(window);
   } //while(running) closing
   
   //clean up  
-  ImGui_ImplSDLRenderer2_Shutdown();
+  ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
   ImGui::DestroyContext();
 
-  SDL_DestroyRenderer(renderer);
+  SDL_GL_DeleteContext(gl_context);
   SDL_DestroyWindow(window);
   SDL_Quit();
 

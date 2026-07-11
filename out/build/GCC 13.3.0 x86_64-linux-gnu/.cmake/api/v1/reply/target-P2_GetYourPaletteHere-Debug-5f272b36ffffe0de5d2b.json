@@ -68,15 +68,15 @@
 				},
 				{
 					"backtrace" : 3,
-					"path" : "/workspaces/P2_GetYourPaletteHere/src/imgui"
-				},
-				{
-					"backtrace" : 3,
-					"path" : "/workspaces/P2_GetYourPaletteHere/src/imgui/backends"
+					"path" : "/workspaces/P2_GetYourPaletteHere/external/imgui/backends"
 				},
 				{
 					"backtrace" : 3,
 					"path" : "/workspaces/P2_GetYourPaletteHere/external/imgui"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/workspaces/P2_GetYourPaletteHere/src/imgui"
 				},
 				{
 					"backtrace" : 3,

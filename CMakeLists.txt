@@ -46,8 +46,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/stb
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends
     ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui
     ${SDL2_INCLUDE_DIRS}
 )

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -isystem /usr/include/SDL2
+CXX_INCLUDES = -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2
 
 CXX_FLAGS = -g -std=c++20
 
