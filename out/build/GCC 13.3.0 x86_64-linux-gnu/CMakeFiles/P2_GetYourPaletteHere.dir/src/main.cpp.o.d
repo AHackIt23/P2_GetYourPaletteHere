@@ -361,4 +361,7 @@ CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imgui.h \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imconfig.h \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imgui_impl_sdl2.h \
- /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.h
+ /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.h \
+ /usr/include/GL/gl.h /workspaces/P2_GetYourPaletteHere/src/MedianCut.h \
+ /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
+ /workspaces/P2_GetYourPaletteHere/src/Color.h

@@ -1,56 +1,68 @@
 [
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/main.cpp",
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/main.cpp",
   "file": "/workspaces/P2_GetYourPaletteHere/src/main.cpp",
   "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/imgui.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/imgui.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/Color.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/Color.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_demo.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/imgui_demo.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/imgui_demo.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_demo.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_draw.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/imgui_draw.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/imgui_draw.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_draw.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdlrenderer2.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdlrenderer2.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdlrenderer2.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdlrenderer2.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_opengl3.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_opengl3.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_opengl3.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_opengl3.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_tables.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/imgui_tables.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/imgui_tables.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_tables.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_sdl2.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_sdl2.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_sdl2.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_sdl2.cpp.o"
 },
 {
   "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
-  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_widgets.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/imgui_widgets.cpp",
-  "file": "/workspaces/P2_GetYourPaletteHere/external/imgui/imgui_widgets.cpp",
-  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/imgui_widgets.cpp.o"
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_sdlrenderer2.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_sdlrenderer2.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_impl_sdlrenderer2.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_impl_sdlrenderer2.cpp.o"
+},
+{
+  "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o"
+},
+{
+  "directory": "/workspaces/P2_GetYourPaletteHere/out/build/GCC 13.3.0 x86_64-linux-gnu",
+  "command": "/usr/bin/g++  -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2 -g -std=gnu++20 -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp",
+  "file": "/workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp",
+  "output": "CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o"
 }
 ]
