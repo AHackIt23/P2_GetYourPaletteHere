@@ -49,13 +49,13 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
     target_link_libraries(P2_GetYourPaletteHere PRIVATE
         ${SDL2MAIN_LIBRARY}
         ${SDL2_LIBRARY}
-        opengl32
+        GL
     )
 else()
     target_link_libraries(P2_GetYourPaletteHere PRIVATE
         SDL2::SDL2main
         SDL2::SDL2
-        opengl32
+        GL
     )
 endif()
 

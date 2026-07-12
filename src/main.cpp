@@ -12,7 +12,6 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#include <stb_image.h>
 
 #include <SDL.h>
 #include <SDL_opengl.h>
