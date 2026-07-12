@@ -482,18 +482,40 @@ int main(int argc, char** argv) {
         ));
         ImGui::TextColored(ImVec4(0.5f, 0.45f, 0.4f, 1.0f), "%s", dragText);
           
+        // move cursor out rectangle
+        ImGui::SetCursorPosY(rectY + rectHeight + 15);
+        
         // File loaded indicator
         if (!draggedImagePath.empty()) {
           std::string fileName = draggedImagePath.substr(draggedImagePath.find_last_of("/\\") + 1);
           std::string loadedText = "✓ File loaded: " + fileName;
           float loadedTextWidth = ImGui::CalcTextSize(loadedText.c_str()).x;
-          ImGui::SetCursorPos(ImVec2(rectX + (rectWidth - loadedTextWidth) / 2, rectY + rectHeight + 10
-          ));
+          ImGui::SetCursorPos(ImVec2(rectX + (rectWidth - loadedTextWidth) / 2, rectY + rectHeight + 10));
           ImGui::TextColored(ImVec4(0.3f, 0.6f, 0.3f, 1.0f), "%s", loadedText.c_str());
-        }
+        } 
+        
+        //Codespace local file input path field
+        static char manualPath[256] = "";
           
+        //center alighment for input box
+        float inputFieldWidth = 200.0f;
+        float loadBWidth = 70.0f;
+        float inputGroupTotalW = inputFieldWidth + 10.0f + loadBWidth;
+        ImGui::SetCursorPosX(centerX - inputGroupTotalW / 2);
+
+        //render text input field + load trigger button
+        ImGui::SetNextItemWidth(inputFieldWidth);
+        ImGui::InputText("##ManualPath", manualPath, IM_ARRAYSIZE(manualPath));
+        ImGui::SameLine();
+        if (ImGui::Button("Load", ImVec2(loadBWidth, 0))) {
+          if (manualPath[0] != '\0') {
+            draggedImagePath = manualPath;
+            errorMessage.clear();
+          }
+        }
+
         // move cursor out rectangle
-        ImGui::SetCursorPosY(rectY + rectHeight + 50);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
 
         //num of colors centered
         std::string colorsText = "Number of Colors:";
@@ -540,10 +562,8 @@ int main(int argc, char** argv) {
         ImGui::PopStyleColor(3);*/
         
         // extract palette
-        ImGui::SetCursorPos(ImVec2(
-            centerX - 120,
-            ImGui::GetCursorPosY() + 40
-        ));
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 30);
+        ImGui::SetCursorPosX(centerX - 120);
         
         if (draggedImagePath.empty()) {
           ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -557,7 +577,6 @@ int main(int argc, char** argv) {
           }
         }
         
-        //ImGui::Dummy(ImVec2(0, 0));
         break;
       } //case Home closing
       

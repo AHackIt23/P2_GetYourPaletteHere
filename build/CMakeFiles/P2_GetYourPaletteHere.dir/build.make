@@ -238,7 +238,8 @@ P2_GetYourPaletteHere: CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backe
 P2_GetYourPaletteHere: CMakeFiles/P2_GetYourPaletteHere.dir/build.make
 P2_GetYourPaletteHere: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 P2_GetYourPaletteHere: /usr/lib/x86_64-linux-gnu/libSDL2.so
-P2_GetYourPaletteHere: /usr/lib/x86_64-linux-gnu/libGL.so
+P2_GetYourPaletteHere: /usr/lib/x86_64-linux-gnu/libGLX.so
+P2_GetYourPaletteHere: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 P2_GetYourPaletteHere: CMakeFiles/P2_GetYourPaletteHere.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable P2_GetYourPaletteHere"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/P2_GetYourPaletteHere.dir/link.txt --verbose=$(VERBOSE)

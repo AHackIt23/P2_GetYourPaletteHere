@@ -5,6 +5,8 @@ project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#suppress policy CMP0072 warning
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 #this is so that if anyone wants to run the code and they dont have like the sdl2 stuff then they an still run it as its now in an external folder
@@ -18,6 +20,7 @@ if(WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include/SDL2)
 
 else()
     find_package(SDL2 CONFIG QUIET)
+    
     if (SDL2_FOUND)
         set(SDL2_INCLUDE_DIR ${SDL2_INCLUDE_DIRS})
         set(SDL2_LIBRARIES SDL2::SDL2main SDL2::SDL2)
