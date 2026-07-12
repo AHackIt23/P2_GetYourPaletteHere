@@ -33,7 +33,7 @@ std::string pixelToHex(const Pixel& p) {
   return ss.str();
 }
 
-std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture, int imageWidth, int imageHeight) {
+std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture, int& imageWidth, int& imageHeight) {
   int width, height, channels;
   
   unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
@@ -282,15 +282,17 @@ int main(int argc, char** argv) {
         if (event.type == SDL_QUIT) running = false;
   
         //Drag and Drop functionality
-        if (event.type == SDL_DROPFILE && state == Home) {
-            draggedImagePath = event.drop.file;
-            errorMessage.clear();
-            SDL_free(event.drop.file);
+        if (event.type == SDL_DROPFILE) {
+          if (state == Home) {
+              draggedImagePath = event.drop.file;
+              errorMessage.clear();
+          }
+        SDL_free(event.drop.file); //avoids memory leaks by mving outisde of state check
         }
     }
 
     if (state == Loading && trigger) {
-      if (loadScreenCount < 1) {
+      if (loadScreenCount < 2) {
         loadScreenCount++;
       }
       else {
@@ -390,15 +392,27 @@ int main(int argc, char** argv) {
       } //case Loading closing
   
       case Results: {
-        float windowWidth = ImGui::GetWindowWidth();
+        float availableWidth = ImGui::GetContentRegionAvail().x;
+        float spacing = ImGui::GetStyle().ItemSpacing.x;
 
-        ImGui::BeginChild("Left Image", ImVec2(windowWidth * 0.5f, 0), false);
+        float column1W = availableWidth * 0.4f; //40% of space for image
+        float column2W = availableWidth * 0.3f; //30% for kMeand palette
+
+        ImGui::BeginChild("Left Image", ImVec2(column1W, 0), false);
         if (ImageStorage != 0) {
-          ImGui::Image((ImTextureID)(intptr_t)ImageStorage, ImVec2(400, 400));
+          //create image bounds
+          float maxImageWidth = ImGui::GetContentRegionAvail().x;
+          float displaySize = (maxImageWidth < 400.0f) ? maxImageWidth : 400.0f;
+          ImGui::Image((ImTextureID)(intptr_t)ImageStorage, ImVec2(displaySize, displaySize));
         }
         
         ImGui::Spacing();
         if (ImGui::Button("Reset", ImVec2(120, 40))) {
+          if (ImageStorage != 0) {
+            //reset image texture to avoid memory leaks
+            glDeleteTextures(1, &ImageStorage);
+            ImageStorage = 0;
+          }
             draggedImagePath.clear();
             kMeansPalette.clear();
             MedianPalette.clear();
@@ -406,10 +420,10 @@ int main(int argc, char** argv) {
         }
         ImGui::EndChild();
     
-        ImGui::SameLine();
+        ImGui::SameLine(0.0f, spacing);
     
         //Middle Column: K-Means Palette
-        ImGui::BeginChild("Middle Column", ImVec2(windowWidth * 0.33f, 0), false);
+        ImGui::BeginChild("Middle Column", ImVec2(column2W, 0), false);
         ImGui::Text("K-Means Palette:");
         ImGui::Separator();
         ImGui::Spacing();
@@ -421,17 +435,16 @@ int main(int argc, char** argv) {
           ImGui::ColorButton(("##KMeansColor" + std::to_string(i)).c_str(), color, ImGuiColorEditFlags_NoAlpha, ImVec2(80, 80));
           ImGui::Text("%s", hexString.c_str());
           ImGui::Spacing();
-          ImGui::Spacing();
         }
 
-        if (ImGui::Button("Copy K-Means Palette", ImVec2(150, 40))) {
+        if (ImGui::Button("Copy K-Means Palette", ImVec2(-1.0f, 40))) { //-1.0f causes button width set to column with
           paletteOutputText(kMeansPalette);
         }
         ImGui::EndChild();
-        ImGui::SameLine();
+        ImGui::SameLine(0.0f, spacing);
 
-        //Right Side: Palette
-        ImGui::BeginChild("Right Column", ImVec2(0, 0), false);
+        //Right Side: Median Cut Palette
+        ImGui::BeginChild("Right Column", ImVec2(0.0f, 0), false); //0.0f causes Median palette to fill remaining space
         ImGui::Text("Median Cut Palette:");
         ImGui::Separator();
         ImGui::Spacing();
@@ -443,10 +456,9 @@ int main(int argc, char** argv) {
           ImGui::ColorButton(("##MedianColor" + std::to_string(i)).c_str(), color, ImGuiColorEditFlags_NoAlpha, ImVec2(80, 80));
           ImGui::Text("%s", hexString.c_str());
           ImGui::Spacing();
-          ImGui::Spacing();
         }
 
-        if (ImGui::Button("Copy Median Palette", ImVec2(150, 40))) {
+        if (ImGui::Button("Copy Median Palette", ImVec2(-1.0f, 40))) {
           paletteOutputText(MedianPalette);
         }
         ImGui::EndChild();
@@ -467,6 +479,7 @@ int main(int argc, char** argv) {
   //clean up  
   if (ImageStorage != 0) {
     glDeleteTextures(1, &ImageStorage);
+    ImageStorage = 0;
   }
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
