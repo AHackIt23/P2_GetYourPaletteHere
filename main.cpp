@@ -21,6 +21,29 @@ struct Pixel {int r, g, b;};
 
 enum ProgramState {Home, Loading, Results};
 
+/*#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <random>
+#include <filesystem>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include "SDL.h"
+#include <SDL_opengl.h>
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdlrenderer2.h>
+
+struct Pixel {int r, g, b;};
+
+enum ProgramState {Home, Loading, Results};
+*/
+
 //convert pixel to hex string
 std::string pixelToHex(const Pixel& p) {
   std::stringstream ss;
@@ -50,7 +73,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   }
 
   //Generate final image texture
-  glGenTexture(1, &resultsImageTexture);
+  glGenTextures(1, &resultsImageTexture);
   glBindTexture(GL_TEXTURE_2D, resultsImageTexture);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -98,12 +121,6 @@ int main(int argc, char** argv) {
     return -1;
   }
   
-  /*SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-  if (!renderer) {
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    return -1;
-  }*/
   //Switch to OpenGL Context
   SDL_GLContext gl_context = SDL_GL_CreateContext(window);
   SDL_GL_MakeCurrent(window, gl_context);
@@ -132,6 +149,10 @@ int main(int argc, char** argv) {
     dataset.push_back({colorLimits(gen), colorLimits(gen), colorLimits(gen)});
   }
   
+  //flag to safely run main algorithms outside for loading screen
+  bool trigger = false;
+  int loadScreenCount = 0;
+
   //Main Loop
   bool running = true;
   while (running) {
@@ -145,6 +166,32 @@ int main(int argc, char** argv) {
             draggedImagePath = event.drop.file;
             SDL_free(event.drop.file);
         }
+    }
+
+    if (state == Loading && trigger) {
+      if (loadScreenCount < 1) {
+        loadScreenCount++;
+      }
+      else {
+        if (!draggedImagePath.empty()) {
+          std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
+          if (!imagePixels.empty()) {
+            //execute algorithms here!!
+            //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
+            //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
+            
+            state = Results;
+          }
+          else {
+            state = Home; // fail fallback
+          }
+        }
+        else {
+          state = Home; //safety fallback
+        }
+        trigger = false; //reset flag
+        loadScreenCount = 0; //reset counter
+      }
     }
 
     //Starting new frame
@@ -164,56 +211,64 @@ int main(int argc, char** argv) {
         }
     
         //stops boundary extension
-        float windowHeight = ImGui::GetWindowHeight();
-        if (windowHeight > 100.0f) {
-          ImGui::Spacing();
-          ImGui::Dummy(ImVec2(0.0f, windowHeight - ImGui::GetCursorPosY() - 80.0f));
-        }
-        
-        float windowWidth = ImGui::GetWindowWidth();
-        ImGui::SetCursorPosX((windowWidth - 240.0f) / 2);
-        if (!draggedImagePath.empty() && ImGui::Button("Extract Palette", ImVec2(240, 52))) {
-          state = Loading;
+        if (!draggedImagePath.empty()) {
+          float windowWidth = ImGui::GetWindowWidth();
+          float windowHeight = ImGui::GetWindowHeight();
+
+          //force cursor porition
+          float safeY = windowHeight - 80.0f;
+          if (safeY < ImGui::GetCursorPosY()) {
+            safeY = ImGui::GetCursorPosY();
+          } // vertical ceiling check
+
+          ImGui::SetCursorPosY(safeY);
+          ImGui::SetCursorPosX((windowWidth - 240.0f) / 2.0f);
+
+          //draw button
+          if (ImGui::Button("Extract Palette", ImVec2(240, 52))) {
+            state = Loading;
+            trigger = true; //trigger main algorithms' execution
+            loadScreenCount = 0;
+          }
+
+          //boundary validation
+          ImGui::Dummy(ImVec2(0.0f, 0.0f));
         }
         break;
       } //case Home closing
   
       case Loading: {
-        if (!draggedImagePath.empty()) {
-          //load image and get list of [R,G,B} values
-          std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
-          if (!imagePixels.empty()) {
-            //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
-            //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
-            state = Results;
-          }
-          else {
-            ImGui::Text("Error loading image...");
-            state = Home; //loading fail
-          }
+        float windowWidth = ImGui::GetWindowWidth();
+        float windowHeight = ImGui::GetWindowHeight();
 
-          ImVec2 textPos1 = ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2);
-          ImGui::SetCursorPos(textPos1);
-          ImGui::Dummy(ImVec2(300, 20));
-          ImGui::SetCursorPos(textPos1);
-          ImGui::Text("Palette Loading...");
-
-          ImVec2 barPos = ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2 + 30);
-          ImGui::SetCursorPos(barPos);
-          ImGui::Dummy(ImVec2(300, 20));
-          ImGui::SetCursorPos(barPos);
-          ImGui::ProgressBar(0.5f, ImVec2(300, 20));
-          break;
+        // position cursor safely in vertical center
+        float middleY = (windowHeight / 2.0f) - 30.0f;
+        if (middleY > ImGui::GetCursorPosY()) {
+          ImGui::SetCursorPosY(middleY);
         }
+
+        //palette loading text parameters
+        ImGui::SetCursorPosX((windowWidth - ImGui::CalcTextSize("Palette Loading...").x) / 2.0f);
+        ImGui::Text("Palette Loading...");
+
+        //removed loading bar functionality becaus of partial implementation
+        //ImGui::SetCursorPosX((windowWidth - 300.0f) / 2.0f);
+        //ImGui::ProgressBar(0.5f, ImVec2(300, 20));
+
+        ImGui::Dummy(ImVec2(0.0f, 0.0f)); //seals cursor adjustment
+        break;
       } //case Loading closing
   
       case Results: {
-        ImGui::BeginChild("Left Image", ImVec2(ImGui::GetWindowWidth() * 0.5f, 0), false);
+        float windowWidth = ImGui::GetWindowWidth();
+
+        ImGui::BeginChild("Left Image", ImVec2(windowWidth * 0.5f, 0), false);
         if (ImageStorage != 0) {
           ImGui::Image((ImTextureID)(intptr_t)ImageStorage, ImVec2(400, 400));
         }
         
-        if (ImGui::Button("Reset")) {
+        ImGui::Spacing();
+        if (ImGui::Button("Reset", ImVec2(120, 40))) {
             draggedImagePath.clear();
             finalPalette.clear();
             state = Home;
@@ -225,6 +280,9 @@ int main(int argc, char** argv) {
         //Right Side: Palette
         ImGui::BeginChild("Right Column", ImVec2(0, 0), false);
         ImGui::Text("Color Palette:");
+        ImGui::Separator();
+        ImGui::Spacing();
+
         for (size_t i = 0; i < finalPalette.size(); ++i) {
           std::string hexString = pixelToHex(finalPalette[i]);
           ImVec4 color = ImVec4(finalPalette[i].r / 255.0f, finalPalette[i].g / 255.0f, finalPalette[i].b / 255.0f, 1.0f);
@@ -232,9 +290,10 @@ int main(int argc, char** argv) {
           ImGui::ColorButton(("##Color" + std::to_string(i)).c_str(), color, ImGuiColorEditFlags_NoAlpha, ImVec2(100, 100));
           ImGui::Text("%s", hexString.c_str());
           ImGui::Spacing();
+          ImGui::Spacing();
         }
 
-        if (ImGui::Button("Copy Palette")) {
+        if (ImGui::Button("Copy Palette", ImVec2(150, 40))) {
           paletteOutputText(finalPalette);
         }
         ImGui::EndChild();
@@ -246,13 +305,16 @@ int main(int argc, char** argv) {
     ImGui::Render();
 
     glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-    glClearColor(0.01f, 0.1f,0.1f, 0.1f);
+    glClearColor(0.01f, 0.1f, 0.1f, 0.1f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     SDL_GL_SwapWindow(window);
   }
   
   //clean up  
+  if (ImageStorage != 0) {
+    glDeleteTextures(1, &ImageStorage);
+  }
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
   ImGui::DestroyContext();
