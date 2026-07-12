@@ -1,53 +1,82 @@
-cmake_minimum_required(VERSION 3.5...3.30)
-project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES C CXX)
+cmake_minimum_required(VERSION 3.10)
+project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES CXX)
 
 # Require C++20 for <filesystem> and modern C++ features
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+#this is so that if anyone wants to run the code and they dont have like the sdl2 stuff then they an still run it as its now in an external folder
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
+    set(SDL2_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2")
+    message(STATUS "SDL2 found in palette project: ${SDL2_PATH}")
 
-# Find necessary external packages
-find_package(SDL2 REQUIRED)
+    set(SDL2_INCLUDE_DIR "${SDL2_PATH}/include")
+    set(SDL2_LIBRARY "${SDL2_PATH}/lib/x64/SDL2.lib")
+    set(SDL2MAIN_LIBRARY "${SDL2_PATH}/lib/x64/SDL2main.lib")
+else()
 
-# Suppress CMP0072 warning by explicitly using GLVND
-if(POLICY CMP0072)
-    cmake_policy(SET CMP0072 NEW)
+    find_package(SDL2 REQUIRED)
+    set(SDL2_INCLUDE_DIR ${SDL2_INCLUDE_DIR})
+    set(SDL2_LIBRARY ${SDL2_LIBRARIES})
+    set(SDL2MAIN_LIBRARY SDL2::SDL2main)
+    message(STATUS "SDL2 found using find_package")
 endif()
-find_package(OpenGL REQUIRED)
 
-set (MAIN_SRC src/main.cpp)
-# Define the source files for our executable
-set(IMGUI_FILES
-    external/imgui/imgui.cpp
-    external/imgui/imgui_demo.cpp
-    external/imgui/imgui_draw.cpp
-    external/imgui/backends/imgui_impl_opengl3.cpp
-    external/imgui/backends/imgui_impl_sdl2.cpp
-    external/imgui/backends/imgui_impl_sdlrenderer2.cpp
-    external/imgui/imgui_tables.cpp
-    external/imgui/imgui_widgets.cpp
+#define project sources
+set(projectSources
+    src/main.cpp
+    src/Color.cpp
+    src/MedianCut.cpp
+    src/imgui/imgui.cpp
+    src/imgui/imgui_demo.cpp
+    src/imgui/imgui_draw.cpp
+    src/imgui/imgui_impl_opengl3.cpp
+    src/imgui/imgui_impl_sdl2.cpp
+    src/imgui/imgui_impl_sdlrenderer2.cpp
+    src/imgui/imgui_tables.cpp
+    src/imgui/imgui_widgets.cpp
 )
 
-#combine source files
-set(SRC_FILES ${MAIN_SRC} ${IMGUI_FILES})
+#define executable
+add_executable(P2_GetYourPaletteHere ${projectSources})
 
-# Create the executable
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+#find and link sdl2
+#find_package(SDL2 REQUIRED)
+#target_link_libraries(P2_GetYourPaletteHere PRIVATE SDL2::SDL2 SDL2::SDL2main)
 
-# Link external libraries (SDL2 and OpenGL)
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    SDL2::SDL2
-    SDL2::SDL2main
-    OpenGL::OpenGL
-)
+#link sdl2 - isa's version
 
-# Specify all header search paths (stb, imgui, and SDL)
-target_include_directories(${PROJECT_NAME} PRIVATE
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
+    target_link_libraries(P2_GetYourPaletteHere PRIVATE
+        ${SDL2MAIN_LIBRARY}
+        ${SDL2_LIBRARY}
+        opengl32
+    )
+else()
+    target_link_libraries(P2_GetYourPaletteHere PRIVATE
+        SDL2::SDL2main
+        SDL2::SDL2
+        opengl32
+    )
+endif()
+
+
+#include directories
+target_include_directories(P2_GetYourPaletteHere PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/stb
     ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends
     ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui
-    ${SDL2_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/imgui/backends
+    ${SDL2_INCLUDE_DIR}
 )
+
+if(WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
+    add_custom_command(TARGET P2_GetYourPaletteHere POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${SDL2_PATH}/lib/x64/SDL2.dll
+            $<TARGET_FILE_DIR:P2_GetYourPaletteHere>)
+endif()
+
+
