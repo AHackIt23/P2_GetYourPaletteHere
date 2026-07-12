@@ -15,11 +15,11 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-
-#include <imgui.h>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
 #include <GL/gl.h>
+
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 
 #include "MedianCut.h"
 #include "Color.h"
