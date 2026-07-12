@@ -156,22 +156,33 @@ std::vector<Pixel> kMeans(const std::vector<Pixel>& inputPixels, int cuts) {
       sum += squared[j];
     }
 
+    if (sum <= 0.0001) {
+      centroids.push_back(inputPixels[dis(gen)]);
+      continue;
+    }
+
     std::uniform_real_distribution<double> real(0.0, sum);
     double target = real(gen);
     double current = 0;
+    bool added = false;
 
     for (size_t j = 0; j < inputPixels.size(); ++j) {
       current += squared[j];
       if (current >= target) {
         centroids.push_back(inputPixels[j]);
+        added = true;
         break;
       }
+    }
+    
+    if (!added) {
+      centroids.push_back(inputPixels[dis(gen)]);
     }
   }
 
   //clustering
   for (int k = 0; k < 100; ++k) {
-    std::vector<std::vector<Pixel>> clusters(3);
+    std::vector<std::vector<Pixel>> clusters(cuts);
 
     //assignment
      for (const auto& pixel : inputPixels) {
