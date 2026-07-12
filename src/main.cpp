@@ -197,12 +197,8 @@ std::vector<Pixel> kMeans(const std::vector<Pixel>& inputPixels) {
 std::vector<Pixel> MedianMean(const std::vector<Pixel>& kPixels) {
   //to do: implement algorithm
   //mock implementation:
-  std::vector<Pixel> kPixels = {
-      {255, 0, 0},
-      {0, 255, 0},
-      {0, 0, 255}
-  };
-  return kPixels;
+  std::vector<Pixel> mockPixels = { {255, 0, 0}, {0, 255, 0}, {0, 0, 255} };
+  return mockPixels;
 }
 
 //text for palette colors
@@ -349,7 +345,7 @@ int main(int argc, char** argv) {
           float windowWidth = ImGui::GetWindowWidth();
           float windowHeight = ImGui::GetWindowHeight();
 
-          //force cursor porition
+          //force cursor position
           float safeY = windowHeight - 80.0f;
           if (safeY < ImGui::GetCursorPosY()) {
             safeY = ImGui::GetCursorPosY();
@@ -366,7 +362,7 @@ int main(int argc, char** argv) {
           }
 
           //boundary validation
-          ImGui::Dummy(ImVec2(0.0f, 0.0f));
+          ImGui::Dummy(ImVec2(0.0f, safeY + 52.0f));
         }
         break;
       } //case Home closing

@@ -203,9 +203,17 @@ CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/random.tcc /usr/include/c++/13/numeric \
  /usr/include/c++/13/bits/stl_numeric.h \
  /usr/include/c++/13/pstl/glue_numeric_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/filesystem \
- /usr/include/c++/13/bits/fs_fwd.h /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/algorithm \
+ /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h \
+ /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/bits/ranges_algobase.h \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
+ /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
+ /usr/include/c++/13/bits/parse_numbers.h \
  /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
  /usr/include/c++/13/ext/concurrence.h \
  /usr/include/c++/13/bits/shared_ptr.h \
@@ -353,4 +361,4 @@ CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imgui.h \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imconfig.h \
  /workspaces/P2_GetYourPaletteHere/include/imgui/imgui_impl_sdl2.h \
- /workspaces/P2_GetYourPaletteHere/include/imgui/imgui_impl_sdlrenderer2.h
+ /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.h
