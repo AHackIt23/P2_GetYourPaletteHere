@@ -198,7 +198,7 @@ These sites are specifically referred to in the rest of the documentation provid
 - [Planning and Tracking Your Project](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
 - [Undo changes, commits, pushes, etc.](https://sethrobertson.github.io/GitFixUm/fixup.html)
 
-### Instructions
+# Instructions
 ## Instruction to run code in Github VS Code workspace:
 
 - open command terminal
@@ -207,7 +207,7 @@ These sites are specifically referred to in the rest of the documentation provid
     - sudo apt-get update && sudo apt-get install -y libsdl2-dev
     - sudo apt-get update && sudo apt-get install -y xvfb x11vnc -novnc fluxbox
     - Xvfb :1 -screen 0 1280x720x24 & export DISPLAY=:1 &&   fluxbox & x11vnc -display :1 -nopw -forever & websockify --web=/usr/share/novnc/ 0.0.0.0:6080 localhost:5900 &
-    ## rm -rf build/ //command not needed
+    - #### rm -rf build/ //command not needed
     - cmake -B build
     - cmake --build build
     - export DISPLAY=:1
