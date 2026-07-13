@@ -224,10 +224,10 @@ These sites are specifically referred to in the rest of the documentation provid
 - then click "Extract Paltette"
 //running the program from your individual hardware is necessary for the drag and drop functionality
 - to test individual color copy functionality:
-        - click copy RGB or copy Hex
-        - execute this command in terminal:
-            - xclip -o -selection CLIPBOARD
-        - go back to application window and click the arrow to the left to open menu and click on the clipboard icon
+    - click copy RGB or copy Hex
+    - execute this command in terminal:
+        - xclip -o -selection CLIPBOARD
+    - go back to application window and click the arrow to the left to open menu and click on the clipboard icon
 - type Ctrl + C to stop anything running in terminal when done
 - then execute:
     - pkill -f "Xvfb|fluxbox|x11vnc|websockify"
