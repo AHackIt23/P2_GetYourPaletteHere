@@ -7,8 +7,6 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/usr/lib/x86_64-linux-gnu/cmake/SDL2/sdl2-config-version.cmake"
-  "/usr/lib/x86_64-linux-gnu/cmake/SDL2/sdl2-config.cmake"
   "/usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake"
   "/usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake"
@@ -19,7 +17,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.28/Modules/Compiler/GNU.cmake"
-  "/usr/share/cmake-3.28/Modules/FeatureSummary.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake"
