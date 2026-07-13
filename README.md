@@ -199,14 +199,15 @@ These sites are specifically referred to in the rest of the documentation provid
 - [Undo changes, commits, pushes, etc.](https://sethrobertson.github.io/GitFixUm/fixup.html)
 
 # Instructions
-## Instruction to run code in Github VS Code workspace:
+## Instruction to run code in Github VS Code workspace in Tester Mode:
 
 - open command terminal
 - execute these commads:
     - sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev - freeglut3-dev
     - sudo apt-get update && sudo apt-get install -y libsdl2-dev
     - sudo apt-get update && sudo apt-get install -y xvfb x11vnc -novnc fluxbox
-    - Xvfb :1 -screen 0 1280x720x24 & export DISPLAY=:1 &&   fluxbox & x11vnc -display :1 -nopw -forever & websockify --web=/usr/share/novnc/ 0.0.0.0:6080 localhost:5900 &
+    - sudo apt-get update && sudo apt-get install -y xclip //will help to test copy feature
+    - Xvfb :1 -screen 0 1280x720x24 & export DISPLAY=:1 && autocutsel -fork && autocutsel -selection PRIMARY -fork && fluxbox & x11vnc -display :1 -nopw -forever -shared & websockify --web=/usr/share/novnc/ 0.0.0.0:6080 localhost:5900 &
     - #### rm -rf build/ //command not needed
     - cmake -B build
     - cmake --build build
@@ -220,10 +221,16 @@ These sites are specifically referred to in the rest of the documentation provid
 - click to the left of Tester and type src/tester.jpg or src/tester2.jpg to test the program functionality
 - select palette size
 - click Tester
-- then click "Extract Paltette
+- then click "Extract Paltette"
 //running the program from your individual hardware is necessary for the drag and drop functionality
+- to test individual color copy functionality:
+        - click copy RGB or copy Hex
+        - executethis command in terminal:
+            xclip -o -selection CLIPBOARD
+        - go back to application window and click the arrow to the left to open menu and click on the clipboard icon
 - type Ctrl + C to stop anything running in terminal when done
 - then execute:
-    pkill -f Xvfb; pkill -f fluxbox; pkill -f x11vnc; pkill -f websockify; pkill -f novnc
-    //to safely close open ports and close open windows manually
+    pkill -f "Xvfb|fluxbox|x11vnc|websockify"
+    killall -9 Xvfb autocutsel fluxbox x11vnc websockify 2>/dev/null
+    //to safely close open ports then close open windows manually
     
