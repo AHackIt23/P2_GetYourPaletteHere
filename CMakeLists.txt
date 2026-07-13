@@ -4,21 +4,35 @@ project(P2_GetYourPaletteHere VERSION 1.0.0 LANGUAGES CXX)
 # Require C++20 for <filesystem> and modern C++ features
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+#suppress policy CMP0072 warning
+set(OpenGL_GL_PREFERENCE GLVND)
+find_package(OpenGL REQUIRED)
+
 #this is so that if anyone wants to run the code and they dont have like the sdl2 stuff then they an still run it as its now in an external folder
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
-    set(SDL2_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2")
-    message(STATUS "SDL2 found in palette project: ${SDL2_PATH}")
+if(WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include/SDL2)
+    set(SDL2_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/SDL2")
+    message(STATUS "Windows detected: SDL2 found in palette project: ${SDL2_PATH}")
 
-    set(SDL2_INCLUDE_DIR "${SDL2_PATH}/include")
-    set(SDL2_LIBRARY "${SDL2_PATH}/lib/x64/SDL2.lib")
-    set(SDL2MAIN_LIBRARY "${SDL2_PATH}/lib/x64/SDL2main.lib")
+    set(SDL2_INCLUDE_DIR "${SDL2_PATH}" "${SDL2_PATH}/include")
+    set(SDL2_LIBRARIES "${SDL2_PATH}/lib/x64/SDL2main.lib"
+        "${SDL2_PATH}/lib/x64/SDL2.lib")
+
 else()
-
-    find_package(SDL2 REQUIRED)
-    set(SDL2_INCLUDE_DIR ${SDL2_INCLUDE_DIR})
-    set(SDL2_LIBRARY ${SDL2_LIBRARIES})
-    set(SDL2MAIN_LIBRARY SDL2::SDL2main)
-    message(STATUS "SDL2 found using find_package")
+    find_package(SDL2 CONFIG QUIET)
+    
+    if (SDL2_FOUND)
+        set(SDL2_INCLUDE_DIR ${SDL2_INCLUDE_DIRS})
+        set(SDL2_LIBRARIES SDL2::SDL2main SDL2::SDL2)
+        message(STATUS "Linux fallback: SDL2 found using find_package")
+    else()
+        #fallback if native CMake modules not indexed
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(SDL2 REQUIRED sdl2)
+        set (SDL2_INCLUDE_DIR ${SDL2_INCLUDE_DIRS})
+        set(SDL2_LIBRARIES ${SDL2_LIBRARIES})
+        message(STATUS "Linux: SDL2 found through PkgConfig fallback")
+    endif()
 endif()
 
 #define project sources
@@ -29,11 +43,10 @@ set(projectSources
     src/imgui/imgui.cpp
     src/imgui/imgui_demo.cpp
     src/imgui/imgui_draw.cpp
-    src/imgui/imgui_impl_opengl3.cpp
-    src/imgui/imgui_impl_sdl2.cpp
-    src/imgui/imgui_impl_sdlrenderer2.cpp
     src/imgui/imgui_tables.cpp
     src/imgui/imgui_widgets.cpp
+    external/imgui/backends/imgui_impl_opengl3.cpp
+    external/imgui/backends/imgui_impl_sdl2.cpp
 )
 
 #define executable
@@ -45,19 +58,10 @@ add_executable(P2_GetYourPaletteHere ${projectSources})
 
 #link sdl2 - isa's version
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
-    target_link_libraries(P2_GetYourPaletteHere PRIVATE
-        ${SDL2MAIN_LIBRARY}
-        ${SDL2_LIBRARY}
-        GL
-    )
-else()
-    target_link_libraries(P2_GetYourPaletteHere PRIVATE
-        SDL2::SDL2main
-        SDL2::SDL2
-        GL
-    )
-endif()
+target_link_libraries(P2_GetYourPaletteHere PRIVATE
+    ${SDL2_LIBRARIES}
+    OpenGL::GL
+)
 
 
 #include directories
@@ -70,9 +74,10 @@ target_include_directories(P2_GetYourPaletteHere PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/imgui/backends
     ${SDL2_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIR}
 )
 
-if(WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2)
+if(WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include/SDL2)
     add_custom_command(TARGET P2_GetYourPaletteHere POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${SDL2_PATH}/lib/x64/SDL2.dll
