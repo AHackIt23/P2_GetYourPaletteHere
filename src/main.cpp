@@ -11,15 +11,15 @@
 #include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <stb/stb_image.h>
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-
-#include <imgui.h>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
 #include <GL/gl.h>
+
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 
 #include "MedianCut.h"
 #include "Color.h"
@@ -48,7 +48,7 @@ std::string pixelToHex(const Pixel& p) {
 std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture, int& imageWidth, int& imageHeight) {
   int width, height, channels;
   
-  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
+  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
   
   //variables only passed to be updated
   imageWidth = width;
@@ -64,7 +64,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   pixels.reserve(totalPixels);
     
   for (size_t i = 0; i < totalPixels; ++i) {
-    size_t index = i * 3;
+    size_t index = i * channels;
     pixels.push_back({static_cast<int>(data[index]), 
                       static_cast<int>(data[index + 1]),
                       static_cast<int>(data[index + 2])
@@ -85,12 +85,15 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  
+  GLenum openGLFormat = (channels == 4) ? GL_RGBA :GL_RGB;
+  glTexImage2D(GL_TEXTURE_2D, 0, openGLFormat, width, height, 0, openGLFormat, GL_UNSIGNED_BYTE, data);
+  
+  stbi_image_free(data);  
+
   checkGLError("loadPixels - glTexImage2D");
   checkGLError("loadPixels - glBindTexture");
   glBindTexture(GL_TEXTURE_2D, 0);
-  
-  stbi_image_free(data);
   
   std::cout << "Texture created with ID: " << resultsImageTexture << std::endl;
   return pixels;
@@ -261,7 +264,7 @@ void paletteOutputText(const std::vector<Pixel>& palette) {
       out << pixelToHex(p) << "\n";
     }
     out.close();
-    std::cout << "Palette saved to: " << output << '\n';
+    std::cout << "Palette saved to: " << output.string() << '\n';
   }
   else {
     std::cerr << "Error: Unable to open output file.\n";
@@ -335,8 +338,6 @@ void setAestheticStyle() {
     style.TabBorderSize = 0.0f;
 }
 
-
-
 int main(int argc, char** argv) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
     std::cerr << "Error: " << SDL_GetError() << std::endl;
@@ -345,9 +346,9 @@ int main(int argc, char** argv) {
 
   //Request OpenGl context profile
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
   SDL_Window* window = SDL_CreateWindow("Get Your Palette Here!", SDL_WINDOWPOS_CENTERED, 
                                   SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
@@ -362,11 +363,11 @@ int main(int argc, char** argv) {
   SDL_GL_SetSwapInterval(1); //vsync
   
   IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
+  ImGui::CreateContext(nullptr);
   setAestheticStyle();//we'll be doing a muted green aesthetic style<3
   
   ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-  ImGui_ImplOpenGL3_Init("#version 130");
+  ImGui_ImplOpenGL3_Init("#version 120");
   
   ProgramState state = Home;
   
@@ -378,11 +379,10 @@ int main(int argc, char** argv) {
   int imageWidth = 0, imageHeight = 0; //dimensions tracker
   std::string errorMessage = ""; //to safely pass size error message to UI
   int m_selectedColors = 5; // Default to 5 colors
-  //int m_selectedAlgorithm = 0; // 0 = Median Cut, 1 = K-Means
 
   //flag to safely run main algorithms outside for loading screen
   bool trigger = false;
-  int loadScreenCount = 0;
+  float loadingProgress = 0.0f;
 
   //Main Loop
   bool running = true;
@@ -397,40 +397,20 @@ int main(int argc, char** argv) {
         if (state == Home) {
           draggedImagePath = event.drop.file;
           errorMessage.clear();
+          state = Loading;
+          trigger = true;
+          loadingProgress = 0.0f;
         }
         SDL_free(event.drop.file); //avoids memory leaks by mving outisde of state check
       }
     }
 
-    if (state == Loading && trigger) { //allows for two full iterations so that load screen will appear
-      if (loadScreenCount < 2) {
-        loadScreenCount++;
+    if (state == Loading && trigger) { //allows for a full iteration so that load screen will appear
+      if (loadingProgress < 1.0f) {
+        loadingProgress += 0.05f;
       }
       else {
-        if (!draggedImagePath.empty()) {
-          imagePixels = loadPixels(draggedImagePath, ImageStorage, imageWidth, imageHeight);
-          if (!imagePixels.empty()) {
-            if ((imageWidth * imageHeight) >= 100000) { //images serve as dataset
-              //the pixels are the data
-              kMeansPalette = kMeans(imagePixels, m_selectedColors);
-              finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
-              state = Results;
-            }
-            else {
-              errorMessage= "Image too small: please drag and drop a larger image.";
-              state = Home;
-            }
-          }
-          else {
-            errorMessage= "Error reading pixels from provided data stream.";
-            state = Home; // fail fallback
-          }
-        }
-        else {
-          state = Home; //safety fallback
-        }
-        trigger = false; //reset flag
-        loadScreenCount = 0; //reset counter
+        state = Results;
       }
     }
 
@@ -440,8 +420,8 @@ int main(int argc, char** argv) {
     ImGui::NewFrame();
   
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    ImGui::Begin("Home", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
+    ImGui::SetNextWindowSize(ImVec2(1280, 720));
+    ImGui::Begin("Home", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove);
   
     switch (state) {
       case Home: {
@@ -477,23 +457,56 @@ int main(int argc, char** argv) {
           
         // drag and drop text centered
         const char* dragText = "Drag and drop an image here.";
-        float dragTextWidth = ImGui::CalcTextSize(dragText).x;
-        ImGui::SetCursorPos(ImVec2(rectX + (rectWidth - dragTextWidth) / 2, rectY + (rectHeight - 20) / 2
-        ));
-        ImGui::TextColored(ImVec4(0.5f, 0.45f, 0.4f, 1.0f), "%s", dragText);
-          
+        ImVec2 dragTextSize = ImGui::CalcTextSize(dragText);
+        ImVec2 windowPos = ImGui::GetWindowPos();
+        ImVec2 dragTextPos = ImVec2( windowPos.x + rectX + (rectWidth - dragTextSize.x) / 2,
+                                    windowPos.y + rectY + (rectHeight - dragTextSize.y) / 2);
+        drawList->AddText(dragTextPos, IM_COL32(128, 115, 102, 255), dragText);
+
+        // move cursor out rectangle
+        ImGui::NewLine();
+        ImGui::SetCursorPosY(rectY + rectHeight + 15);
+        
         // File loaded indicator
         if (!draggedImagePath.empty()) {
           std::string fileName = draggedImagePath.substr(draggedImagePath.find_last_of("/\\") + 1);
           std::string loadedText = "✓ File loaded: " + fileName;
           float loadedTextWidth = ImGui::CalcTextSize(loadedText.c_str()).x;
-          ImGui::SetCursorPos(ImVec2(rectX + (rectWidth - loadedTextWidth) / 2, rectY + rectHeight + 10
-          ));
+          ImGui::SetCursorPosX(centerX - loadedTextWidth / 2);
           ImGui::TextColored(ImVec4(0.3f, 0.6f, 0.3f, 1.0f), "%s", loadedText.c_str());
-        }
+          ImGui::Spacing();
+        } 
+        
+        //Codespace local file input path field
+        static char manualPath[256] = "";
           
+        //center alighment for input box
+        float inputFieldWidth = 200.0f;
+        float loadBWidth = 70.0f;
+        float inputGroupTotalW = inputFieldWidth + 10.0f + loadBWidth;
+
+        ImGui::SetCursorPosX(centerX - inputGroupTotalW / 2);
+
+        //render text input field + load trigger button
+        ImGui::SetNextItemWidth(inputFieldWidth);
+        ImGui::InputText("##ManualPath", manualPath, IM_ARRAYSIZE(manualPath));
+        ImGui::SameLine();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.1f)); //light tint when hovered
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.2f)); //darker tint when clicked
+        
+        if (ImGui::Button("Tester", ImVec2(loadBWidth, 0))) {
+          if (manualPath[0] != '\0') {
+            draggedImagePath = manualPath;
+            errorMessage.clear();
+          }
+        }
+
+        ImGui::PopStyleColor(3); // remove transparent layout cleanly
+
         // move cursor out rectangle
-        ImGui::SetCursorPosY(rectY + rectHeight + 50);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 25);
 
         //num of colors centered
         std::string colorsText = "Number of Colors:";
@@ -516,34 +529,10 @@ int main(int argc, char** argv) {
         if (ImGui::RadioButton("5", m_selectedColors == 5)) m_selectedColors = 5;
           
         ImGui::PopStyleColor(3);
-          
-        /* Going to comment this out
-        //It may be easier to post both results at end for comparison
-        // ALGORITHM TOGGLE!!!!!!! (Median Cut vs K-Means)
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-        std::string algoText = "Algorithm:";
-        float algoTextWidth = ImGui::CalcTextSize(algoText.c_str()).x;
-        float algoRadioWidth = 200; // Approximate width of 2 radio buttons
-        float algoTotalWidth = algoTextWidth + 20 + algoRadioWidth;
-        ImGui::SetCursorPosX(centerX - algoTotalWidth / 2);
-        ImGui::Text("%s", algoText.c_str());
-        ImGui::SameLine();
-          
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.85f, 0.80f, 0.75f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.90f, 0.85f, 0.80f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_CheckMark, ImVec4(0.3f, 0.5f, 0.4f, 1.0f));
-        
-        if (ImGui::RadioButton("Median Cut", m_selectedAlgorithm == 0)) m_selectedAlgorithm = 0;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("K-Means", m_selectedAlgorithm == 1)) m_selectedAlgorithm = 1;
-        
-        ImGui::PopStyleColor(3);*/
         
         // extract palette
-        ImGui::SetCursorPos(ImVec2(
-            centerX - 120,
-            ImGui::GetCursorPosY() + 40
-        ));
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 35);
+        ImGui::SetCursorPosX(centerX - 120);
         
         if (draggedImagePath.empty()) {
           ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -553,85 +542,72 @@ int main(int argc, char** argv) {
           if (ImGui::Button("Extract Palette", ImVec2(240, 52))) {
             state = Loading;
             trigger = true; //trigger main algorithms' execution
-            loadScreenCount = 0;
+            loadingProgress = 0.0f;
           }
         }
         
-        //ImGui::Dummy(ImVec2(0, 0));
         break;
       } //case Home closing
       
       case Loading: {
         float windowWidth = ImGui::GetWindowWidth();
         float windowHeight = ImGui::GetWindowHeight();
-        ImGui::SetCursorPosY((windowHeight / 2.0f) - 20.0f);
 
         //palette loading text parameters
+        ImGui::SetCursorPosY((windowHeight / 2.0f) - 40.0f);
         ImGui::SetCursorPosX((windowWidth - ImGui::CalcTextSize("Palette Loading...").x) / 2.0f);
         ImGui::Text("Palette Extracting...");
 
-        //ImGui::Dummy(ImVec2(0.0f, 0.0f)); //seals cursor adjustment
+        ImGui::Spacing();
         ImGui::SetCursorPosX((windowWidth - 300.0f) / 2.0f);
-        ImGui::ProgressBar(0.05, ImVec2(300, 20));
-        break;
-        //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        /*SDL_RenderClear(renderer);
-        //ImGui_ImplSDLRenderer2_DrawData(ImGui::GetDrawData());
-          
-        //SDL_RenderPresent(renderer);
-        if (!draggedImagePath.empty()) {
-          //load image and get list of [R,G,B} values
-              
-              
-              
-          std::cout << "Loading pixels from: " << draggedImagePath << std::endl;
-          std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
-          std::cout << "Loaded " << imagePixels.size() << " pixels" << std::endl;
-          if (!imagePixels.empty()) {
+        
+        ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
+        ImGui::ProgressBar(loadingProgress, ImVec2(300, 20), "");
+        ImGui::PopStyleColor();
 
-            //std::vector<Pixel> kMeansPixels = k means function call returning palette(dataset)
-            //finalPalette = median mean function call returning 3 color palette(kMeansPixels)
-
-          // using the median cut algorithm
-          // using the selected algorithm
-          if (m_selectedAlgorithm == 0) {
-              // Median Cut
-              finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
-          } else {
-            // K-Means (placeholder - Amkia will replace this)
-            finalPalette = kMean(imagePixels);
-            // Resize to match selected color count
-            if ((int)finalPalette.size() > m_selectedColors) {
-              finalPalette.resize(m_selectedColors);
+        if (trigger) {
+          loadingProgress += 0.05f;
+          if (loadingProgress >= 1.0f) {
+            if (!draggedImagePath.empty()) {
+              imagePixels = loadPixels(draggedImagePath, ImageStorage, imageWidth, imageHeight);
+              if (!imagePixels.empty()) {
+                if ((imageWidth * imageHeight) >= 100000) { //images serve as dataset
+                  //the pixels are the data for the dataset
+                  kMeansPalette = kMeans(imagePixels, m_selectedColors);
+                  finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
+                  state = Results;
+                }
+                else {
+                  errorMessage= "Image too small: please drag and drop a larger image.";
+                  state = Home;
+                }
+              }
+              else {
+                errorMessage = "Error reading pixels from provided data stream.";
+                state = Home; // fail fallback
+              }
             }
+            else {
+              state = Home; 
+            }
+
+            trigger = false;
+            loadingProgress = 0.0f;
           }
-
-            state = Results;
-          }
-
-
-
-
-          else {
-            ImGui::Text("Error loading image...");
-            state = Home; //loading fail
-          }
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2));
-          ImGui::Text("Palette Loading...");
-          ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 60, ImGui::GetWindowHeight() / 2 + 30));
-          ImGui::ProgressBar(0.5f, ImVec2(300, 20));
-        }*/
+        }
+        break;
       } //case Loading closing
       
       case Results: {
+
         float availableWidth = ImGui::GetContentRegionAvail().x;
         float spacing = ImGui::GetStyle().ItemSpacing.x;
 
-        float column1W = availableWidth * 0.4f; //40% of space for image
-        float column2W = availableWidth * 0.3f; //30% for kMeand palette
+        float column1W = availableWidth * 0.28f; //40% of space for image
+        float column2W = availableWidth * 0.35f; //30% for kMeand palette
 
         //left side has the image info instead of image
-        ImGui::BeginChild("Left Image", ImVec2(column1W, 0), true);
+        ImGui::BeginChild("Left Image", ImVec2(column1W, -1.0f), ImGuiChildFlags_Borders);
           
         // show image info and status
         ImGui::Text("Image Processed Successfully!");
@@ -646,17 +622,14 @@ int main(int argc, char** argv) {
         if (ImageStorage != 0) {
           //create image bounds
           float maxImageWidth = ImGui::GetContentRegionAvail().x;
-          float displaySize = (maxImageWidth < 400.0f) ? maxImageWidth : 400.0f;
+          float displaySize = (maxImageWidth < 220.0f) ? maxImageWidth : 220.0f;
           ImGui::Image((ImTextureID)(intptr_t)ImageStorage, ImVec2(displaySize, displaySize));
         }
             
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
-        //ImGui::Text("Colors Extracted: %d", (int)finalPalette.size());
-        //const char* algoNames[] = {"Median Cut", "K-Means"};
-        //ImGui::Text("Algorithm: %s", algoNames[m_selectedAlgorithm]);
-          
+ 
         // color toggle with visible background
         ImGui::Text("Number of Colors:");
         ImGui::SameLine();
@@ -671,64 +644,14 @@ int main(int argc, char** argv) {
         ImGui::SameLine();
         if (ImGui::RadioButton("5", m_selectedColors == 5)) {m_selectedColors = 5; }
 
-        /*if (ImGui::RadioButton("3", m_selectedColors == 3)) {
-          m_selectedColors = 3;
-          if (!draggedImagePath.empty()) {
-            std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
-            if (!imagePixels.empty()) {
-              if (m_selectedAlgorithm == 0) {
-                finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
-              } else {
-                finalPalette = kMeans(imagePixels, m_selectedColors);
-                if ((int)finalPalette.size() > m_selectedColors) {
-                  finalPalette.resize(m_selectedColors);
-                }
-              }
-            }
-          }
-          ImGui::SameLine();
-          if (ImGui::RadioButton("4", m_selectedColors == 4)) {
-            m_selectedColors = 4;
-            if (!draggedImagePath.empty()) {
-              std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
-              if (!imagePixels.empty()) {
-                if (m_selectedAlgorithm == 0) {
-                  finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
-                } else {
-                  finalPalette = kMean(imagePixels);
-                  if ((int)finalPalette.size() > m_selectedColors) {
-                    finalPalette.resize(m_selectedColors);
-                  }
-                }
-              }
-            }
-          }
-          ImGui::SameLine();
-          if (ImGui::RadioButton("5", m_selectedColors == 5)) {
-            m_selectedColors = 5;
-            if (!draggedImagePath.empty()) {
-              std::vector<Pixel> imagePixels = loadPixels(draggedImagePath, ImageStorage);
-              if (!imagePixels.empty()) {
-                if (m_selectedAlgorithm == 0) {
-                  finalPalette = MedianCutPalette(imagePixels, m_selectedColors);
-                } else {
-                  finalPalette = kMean(imagePixels);
-                  if ((int)finalPalette.size() > m_selectedColors) {
-                    finalPalette.resize(m_selectedColors);
-                  }
-                }
-              }
-            }
-          }
-        }*/
-
         ImGui::PopStyleColor(3);
         ImGui::Spacing();
         ImGui::Spacing();
         
-        if (ImGui::Button("Reset", ImVec2(120, 40))) {
+        if (ImGui::Button("Reset", ImVec2(ImGui::GetContentRegionAvail().x, 40))) {
           if (ImageStorage != 0) {
             //reset image texture to avoid memory leaks
+            glBindTexture(GL_TEXTURE_2D, 0);
             glDeleteTextures(1, &ImageStorage);
             ImageStorage = 0;
           }
@@ -740,12 +663,19 @@ int main(int argc, char** argv) {
         }
         ImGui::EndChild();
 
-        ImGui::SameLine(0.0f, spacing);
+        ImGui::SameLine(0.0f, spacing / 2.0f);
+
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.306f, 0.380f, 0.357f, 0.4f));
+        ImGui::BeginChild("Column1_Seperator", ImVec2(1.0f, 0.0f), ImGuiChildFlags_None, ImGuiWindowFlags_NoInputs);
+        ImGui::EndChild();
+        ImGui::PopStyleColor();
+
+        ImGui::SameLine(0.0f, spacing / 2.0f);
 
         //Middle Column: K-Means Palette
-        ImGui::BeginChild("Middle Column", ImVec2(column2W, 0), false);
+        ImGui::SetNextWindowContentSize(ImVec2(450.0f, 0.0f));
+        ImGui::BeginChild("Middle Column", ImVec2(column2W, 0), ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
         ImGui::Text("K-Means Palette:");
-        //ImGui::Text("%d colors extracted", (int)kMeansPalette.size());
         ImGui::Separator();
         ImGui::Spacing();
 
@@ -756,19 +686,58 @@ int main(int argc, char** argv) {
                                     std::to_string(kMeansPalette[i].b);
           ImVec4 color = ImVec4(kMeansPalette[i].r / 255.0f, kMeansPalette[i].g / 255.0f, kMeansPalette[i].b / 255.0f, 1.0f);
 
-          ImGui::ColorButton(("##Color" + std::to_string(i)).c_str(), color, ImGuiColorEditFlags_NoAlpha, ImVec2(80, 80));
-          ImGui::Text("%s", hexStringK.c_str());
+          // color swatch
+          ImGui::PushStyleColor(ImGuiCol_Button, color);
+          ImGui::PushStyleColor(ImGuiCol_ButtonHovered, color);
+          ImGui::PushStyleColor(ImGuiCol_ButtonActive, color);
+          ImGui::ColorButton(("##ColorK" + std::to_string(i)).c_str(), color, ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoTooltip, ImVec2(40, 40));
+          ImGui::PopStyleColor(3);
+
+          ImGui::SameLine();
+
+          // === HEX LINE ===
+          ImGui::BeginGroup();
+          ImGui::Text("Hex: %s", hexStringK.c_str());
+
+          // Copy K Means Hex button
+          ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
+          ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
+          ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
+          if (ImGui::Button(("Copy Hex##KHex" + std::to_string(i)).c_str(), ImVec2(180, 0))) {
+            ImGui::SetClipboardText(hexStringK.c_str());
+          }
+          ImGui::PopStyleColor(3);
+          ImGui::EndGroup();
+
+          ImGui::SameLine();
+
+          // === K Means RGB LINE ===
+          ImGui::BeginGroup();
+          ImGui::Text("RGB: %s", rgbStringK.c_str());
+            
+          // Copy RGB button
+          ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
+          ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
+          ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
+          if (ImGui::Button(("Copy RGB##KRGB" + std::to_string(i)).c_str(), ImVec2(180, 0))) {
+            ImGui::SetClipboardText(rgbStringK.c_str());
+          }
+          ImGui::PopStyleColor(3);
+          ImGui::EndGroup();
+            
           ImGui::Spacing();
         }
 
+        // copy all K-buttons footer
         ImGui::Separator();
-        ImGui::Text("copy K-Means");
-
-        // Copy K-Means Hex button
+        ImGui::Text("Copy K-Means Cut:");
+        ImGui::SameLine();
+        
+        // copy all K Means Hex button
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-        if (ImGui::Button("Copy Hex##", ImVec2(60, 30))) {
+        if (ImGui::Button("Copy All Hex##KAllHex", ImVec2(130, 30))) {
           std::string hexString;
           for (const auto& p : kMeansPalette) {
             hexString += pixelToHex(p);
@@ -776,15 +745,17 @@ int main(int argc, char** argv) {
           }
           if (!hexString.empty()) hexString.pop_back();
           ImGui::SetClipboardText(hexString.c_str());
+          paletteOutputText(kMeansPalette);
         }
         ImGui::PopStyleColor(3);
+        
         ImGui::SameLine();
-
-        // Copy K-Means RGB button
+          
+        // copy all rgb button
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-        if (ImGui::Button("Copy RGB##", ImVec2(60, 30))) {
+        if (ImGui::Button("Copy All RGB##KAllRGB", ImVec2(130, 30))) {
           std::string rgbString;
           for (const auto& p : kMeansPalette) {
             rgbString += std::to_string(p.r) + "," + std::to_string(p.g) + "," + std::to_string(p.b);
@@ -796,14 +767,15 @@ int main(int argc, char** argv) {
         ImGui::PopStyleColor(3);
 
         ImGui::Spacing();
-        if (ImGui::Button("Copy K-Means Palette", ImVec2(-1.0f, 40))) { //-1.0f causes button width set to column with
+        if (ImGui::Button("Copy K-Means Palette##KMeansPalette", ImVec2(430, 40))) {
           paletteOutputText(kMeansPalette);
         }
         ImGui::EndChild();
         ImGui::SameLine(0.0f, spacing);
 
         //Right Side: Median Cut Palette
-        ImGui::BeginChild("Right Column", ImVec2(0.0f, 0), false); //0.0f causes Median palette to fill remaining space
+        ImGui::SetNextWindowContentSize(ImVec2(450.0f, 0.0f));
+        ImGui::BeginChild("Right Column", ImVec2(column2W, 0), ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse); //0.0f causes Median palette to fill remaining space
         ImGui::Text("Median Cut Palette:");
         ImGui::Separator();
         ImGui::Spacing();
@@ -825,30 +797,34 @@ int main(int argc, char** argv) {
           ImGui::SameLine();
             
           // === HEX LINE ===
+          ImGui::BeginGroup();
           ImGui::Text("Hex: %s", hexStringM.c_str());
-          ImGui::SameLine();
               
           // Copy Median Cut Hex button
           ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
           ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
           ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-          if (ImGui::Button(("Copy Hex##" + std::to_string(i)).c_str())) {
+          if (ImGui::Button(("Copy Hex##MHex" + std::to_string(i)).c_str(), ImVec2(180, 0))) {
             ImGui::SetClipboardText(hexStringM.c_str());
           }
           ImGui::PopStyleColor(3);
+          ImGui::EndGroup();
+
+          ImGui::SameLine();
             
           // === Median Cut RGB LINE ===
+          ImGui::BeginGroup();
           ImGui::Text("RGB: %s", rgbStringM.c_str());
-          ImGui::SameLine();
             
           // Copy RGB button
           ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
           ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
           ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-          if (ImGui::Button(("Copy RGB##" + std::to_string(i)).c_str())) {
+          if (ImGui::Button(("Copy RGB##MRGB" + std::to_string(i)).c_str(), ImVec2(180, 0))) {
             ImGui::SetClipboardText(rgbStringM.c_str());
           }
           ImGui::PopStyleColor(3);
+          ImGui::EndGroup();
             
           ImGui::Spacing();
         }
@@ -862,7 +838,7 @@ int main(int argc, char** argv) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-        if (ImGui::Button("Copy All Hex", ImVec2(100, 30))) {
+        if (ImGui::Button("Copy All Hex##MAllHex", ImVec2(130, 30))) {
           std::string hexString;
           for (const auto& p : finalPalette) {
             hexString += pixelToHex(p);
@@ -880,7 +856,7 @@ int main(int argc, char** argv) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.306f, 0.380f, 0.357f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.48f, 0.45f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.122f, 0.145f, 0.196f, 1.0f));
-        if (ImGui::Button("Copy All RGB", ImVec2(100, 30))) {
+        if (ImGui::Button("Copy All RGB##MAllRGB", ImVec2(130, 30))) {
           std::string rgbString;
           for (const auto& p : finalPalette) {
             rgbString += std::to_string(p.r) + "," + std::to_string(p.g) + "," + std::to_string(p.b);
@@ -892,7 +868,7 @@ int main(int argc, char** argv) {
         ImGui::PopStyleColor(3);
 
         ImGui::Spacing();
-        if (ImGui::Button("Copy Median Palette", ImVec2(-1.0f, 40))) {
+        if (ImGui::Button("Copy Median Cut Palette##MedianPalette", ImVec2(430, 40))) {
           paletteOutputText(finalPalette);
         }
         ImGui::EndChild();
@@ -919,7 +895,7 @@ int main(int argc, char** argv) {
   }
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
-  ImGui::DestroyContext();
+  ImGui::DestroyContext(nullptr);
 
   SDL_GL_DeleteContext(gl_context);
   SDL_DestroyWindow(window);
