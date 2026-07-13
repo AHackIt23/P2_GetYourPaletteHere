@@ -48,7 +48,7 @@ std::string pixelToHex(const Pixel& p) {
 std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageTexture, int& imageWidth, int& imageHeight) {
   int width, height, channels;
   
-  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
+  unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
   
   //variables only passed to be updated
   imageWidth = width;
@@ -64,7 +64,7 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   pixels.reserve(totalPixels);
     
   for (size_t i = 0; i < totalPixels; ++i) {
-    size_t index = i * 3;
+    size_t index = i * channels;
     pixels.push_back({static_cast<int>(data[index]), 
                       static_cast<int>(data[index + 1]),
                       static_cast<int>(data[index + 2])
@@ -85,14 +85,15 @@ std::vector<Pixel> loadPixels(const std::string& filename, GLuint& resultsImageT
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  if (data) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-  }
-  //checkGLError("loadPixels - glTexImage2D");
-  //checkGLError("loadPixels - glBindTexture");
-  //glBindTexture(GL_TEXTURE_2D, 0);
   
-  stbi_image_free(data);
+  GLenum openGLFormat = (channels == 4) ? GL_RGBA :GL_RGB;
+  glTexImage2D(GL_TEXTURE_2D, 0, openGLFormat, width, height, 0, openGLFormat, GL_UNSIGNED_BYTE, data);
+  
+  stbi_image_free(data);  
+
+  checkGLError("loadPixels - glTexImage2D");
+  checkGLError("loadPixels - glBindTexture");
+  glBindTexture(GL_TEXTURE_2D, 0);
   
   std::cout << "Texture created with ID: " << resultsImageTexture << std::endl;
   return pixels;
@@ -362,7 +363,7 @@ int main(int argc, char** argv) {
   SDL_GL_SetSwapInterval(1); //vsync
   
   IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
+  ImGui::CreateContext(nullptr);
   setAestheticStyle();//we'll be doing a muted green aesthetic style<3
   
   ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
@@ -495,7 +496,7 @@ int main(int argc, char** argv) {
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.05f)); //light tint when hovered
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.1f)); //darker tint when clicked
         
-        if (ImGui::Button("Tester Load", ImVec2(loadBWidth, 0))) {
+        if (ImGui::Button("Tester", ImVec2(loadBWidth, 0))) {
           if (manualPath[0] != '\0') {
             draggedImagePath = manualPath;
             errorMessage.clear();
@@ -894,7 +895,7 @@ int main(int argc, char** argv) {
   }
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
-  ImGui::DestroyContext();
+  ImGui::DestroyContext(nullptr);
 
   SDL_GL_DeleteContext(gl_context);
   SDL_DestroyWindow(window);
