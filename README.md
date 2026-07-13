@@ -207,7 +207,7 @@ These sites are specifically referred to in the rest of the documentation provid
     sudo apt-get update && sudo apt-get install -y libsdl2-dev
     sudo apt-get update && sudo apt-get install -y xvfb x11vnc novnc fluxbox
     Xvfb :1 -screen 0 1280x720x24 & export DISPLAY=:1 && fluxbox & x11vnc -display :1 -nopw -forever & websockify --web=/usr/share/novnc/ 0.0.0.0:6080 localhost:5900 &
-    //rm -rf build/ //not needed
+    //rm -rf build/ //command not needed
     cmake -B build
     cmake --build build
     export DISPLAY=:1
