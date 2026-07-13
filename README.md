@@ -204,7 +204,7 @@ These sites are specifically referred to in the rest of the documentation provid
 - open command terminal
 - execute these commads:
     - sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev
-    - sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev - freeglut3-dev
+    - sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
     - sudo apt-get update && sudo apt-get install -y libsdl2-dev
     - sudo apt-get update && sudo apt-get install -y xvfb x11vnc novnc fluxbox
     - Xvfb :1 -screen 0 1280x720x24 & export DISPLAY=:1 && autocutsel -fork && autocutsel -selection PRIMARY -fork && fluxbox & x11vnc -display :1 -nopw -forever -shared & websockify --web=/usr/share/novnc/ 0.0.0.0:6080 localhost:5900 &
@@ -216,7 +216,7 @@ These sites are specifically referred to in the rest of the documentation provid
     - ./build/P2_GetYourPaletteHere
 - next, select "PORTS" tab next to "TERMINAL" 
 - hover over the 6080 port and select the globe icon to open the program through vnc webpage software
-- when window open, from "Directory listing for /" click vnc.html
+- when window opens, from "Directory listing for /" click vnc.html
 - select the connect button in the center of the new screen
 - click to the left of "Tester" and type src/tester.jpg or src/tester2.jpg to manually test the program functionality
 - select palette size
@@ -228,5 +228,5 @@ These sites are specifically referred to in the rest of the documentation provid
 - then execute to guarantee safe port closing:
     - pkill -f "Xvfb|fluxbox|x11vnc|websockify"
     - killall -9 Xvfb autocutsel fluxbox x11vnc websockify 2>/dev/null
-- then close open windows manually
+- then close open window manually
     
