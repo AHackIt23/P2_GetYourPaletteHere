@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/workspaces/P2_GetYourPaletteHere/include -I/workspaces/P2_GetYourPaletteHere/include/imgui -I/workspaces/P2_GetYourPaletteHere/include/stb -I/workspaces/P2_GetYourPaletteHere/external/imgui/backends -I/workspaces/P2_GetYourPaletteHere/external/imgui -I/workspaces/P2_GetYourPaletteHere/src/imgui -I/workspaces/P2_GetYourPaletteHere/include/imgui/backends -isystem /usr/include/SDL2
 
-CXX_FLAGS = -std=gnu++20
+CXX_FLAGS = -g -std=gnu++20
 
