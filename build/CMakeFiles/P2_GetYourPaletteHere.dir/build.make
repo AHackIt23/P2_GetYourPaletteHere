@@ -73,141 +73,141 @@ CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: CMakeFiles/P2_GetYourPalett
 CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: /workspaces/P2_GetYourPaletteHere/src/main.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/main.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/main.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/main.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/main.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/main.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/main.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/main.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o: /workspaces/P2_GetYourPaletteHere/src/Color.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/Color.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/Color.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/Color.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/Color.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/Color.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/Color.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/Color.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o: /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/MedianCut.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/MedianCut.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o: /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o: /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_demo.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_demo.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o: /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_draw.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_draw.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o: /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_tables.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_tables.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o: /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.o -c /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/src/imgui/imgui_widgets.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/src/imgui/imgui_widgets.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_opengl3.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/flags.make
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/P2_GetYourPaletteHere.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/P2_GetYourPaletteHere/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -c /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp > CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.i
 
 CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/P2_GetYourPaletteHere/external/imgui/backends/imgui_impl_sdl2.cpp -o CMakeFiles/P2_GetYourPaletteHere.dir/external/imgui/backends/imgui_impl_sdl2.cpp.s
 
 # Object files for target P2_GetYourPaletteHere
 P2_GetYourPaletteHere_OBJECTS = \
